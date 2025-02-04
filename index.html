@@ -3,22 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>8th Wall AR</title>
-    
-    <!-- Incluye el SDK de 8th Wall -->
-    <script src="https://apps.8thwall.com/xrweb?appKey=TU_APP_KEY"></script>
+    <title>Niantic Lightship AR</title>
+
+    <!-- Cargar el SDK de Lightship -->
+    <script src="https://lsd.lightship.dev/sdk.js"></script>
 
     <script>
-        function placeModel(position) {
-            const scene = document.querySelector("#scene");
-            const model = document.createElement("a-entity");
+        async function startAR() {
+            // Inicializa el SDK con tu API Key
+            await Lightship.init({
+                apiKey: "zDBANW6HdJAR0HOMGBxmAE2DnutDwyEiEFZo6XjRYQ2PSU36qqiRg6JoSZaUVg6gKQjVmX",
+                enableAR: true
+            });
 
-            model.setAttribute("gltf-model", "https://immersive-web.github.io/webxr-samples/media/gltf/sunflower/sunflower.gltf");
-            model.setAttribute("scale", "0.5 0.5 0.5");
-            model.setAttribute("position", `${position.x} ${position.y} ${position.z}`);
+            // Detectar superficies
+            Lightship.on("surfaceDetected", (event) => {
+                console.log("Superficie detectada en:", event.position);
+                showReticle(event.position);
+            });
 
-            scene.appendChild(model);
+            // Agregar objeto al tocar
+            document.body.addEventListener("click", () => {
+                placeObject();
+            });
         }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            XR8.XrContro
+        function showReticle(position) {
+            let reticle = document.querySelector("#reticle");
+            reticle.setAttribute("position", `${position.x} ${position.y} ${position.z}`);
+            reticle.setAttribute("visible", "true");
+        }
+
+        function placeObject() {
+            let scene = document.querySelector("#scene");
+            let flower = document.createElement("a-entity");
+
+            flower.setAttribute("gltf-model", "https://immersive-web.github.io/webxr-samples/media/gltf/sunflower/sunflower.gltf");
+            flower.setAttribute("scale", "0.5 0.5 0.5");
+            flower.setAttribute("position", document.querySelector("#reticle").getAttribute("position"));
+
+            scene.appendChild(flower);
+        }
+    </script>
+
+    <!-- A-Frame para renderizar el modelo en AR -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+</head>
+<body onload="startAR()" style="margin: 0; overflow: hidden;">
+    <a-scene id="scene" embedded>
+        <a-light type="directional" position="1 1 1" intensity="0.5"></a-light>
+        <a-entity id="reticle" geometry="primitive: ring; radiusInner: 0.03; radiusOuter: 0.05"
+                  material="color: red; shader: flat" visible="false"></a-entity>
+        <a-camera position="0 1.6 0"></a-camera>
+    </a-scene>
+</body>
+</html>
