@@ -7,7 +7,7 @@
 
     <!-- A-Frame and AR.js -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/ar.js@1.7.2/aframe/build/aframe-ar.min.js"></script>
   </head>
   <body style="margin: 0; overflow: hidden;">
     <a-scene embedded arjs>
@@ -15,26 +15,32 @@
       <a-light type="directional" position="1 1 1" intensity="0.5"></a-light>
 
       <!-- Reticle (indicador de posición) -->
-      <a-entity id="reticle" geometry="primitive: ring; radiusInner: 0.03; radiusOuter: 0.05" material="color: red; shader: flat" position="0 0 -2" visible="false"></a-entity>
+      <a-entity id="reticle" geometry="primitive: ring; radiusInner: 0.03; radiusOuter: 0.05" material="color: red; shader: flat" visible="false"></a-entity>
 
-      <!-- Cargar modelo 3D -->
-      <a-entity id="flower" gltf-model="https://immersive-web.github.io/webxr-samples/media/gltf/sunflower/sunflower.gltf" position="0 0 -2" scale="0.5 0.5 0.5" visible="false"></a-entity>
-
-      <!-- Cámara con cursor para interacción -->
-      <a-entity camera>
-        <a-cursor id="cursor" fuse="true" fuse-timeout="1000"></a-cursor>
-      </a-entity>
+      <!-- Cámara con hit-test activado -->
+      <a-entity camera position="0 1.6 0" ar-hit-test="target: #reticle;"></a-entity>
     </a-scene>
 
     <script>
-      // Detectar clic y colocar el modelo en la posición del reticle
-      document.querySelector("#cursor").addEventListener("click", function () {
-        let flower = document.querySelector("#flower");
-        let reticle = document.querySelector("#reticle");
-        if (flower && reticle) {
-          flower.setAttribute("position", reticle.getAttribute("position"));
-          flower.setAttribute("visible", "true");
-        }
+      AFRAME.registerComponent("ar-hit-test", {
+        init: function () {
+          const sceneEl = this.el.sceneEl;
+          const reticle = document.querySelector("#reticle");
+
+          this.el.sceneEl.addEventListener("enter-vr", (ev) => {
+            if (sceneEl.is("ar-mode")) {
+              navigator.xr.requestSession("immersive-ar", { requiredFeatures: ["hit-test"] }).then((session) => {
+                session.addEventListener("select", (ev) => {
+                  const flower = document.createElement("a-entity");
+                  flower.setAttribute("gltf-model", "https://immersive-web.github.io/webxr-samples/media/gltf/sunflower/sunflower.gltf");
+                  flower.setAttribute("scale", "0.5 0.5 0.5");
+                  flower.setAttribute("position", reticle.getAttribute("position"));
+                  sceneEl.appendChild(flower);
+                });
+              });
+            }
+          });
+        },
       });
     </script>
   </body>
