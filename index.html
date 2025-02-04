@@ -3,23 +3,23 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>AR.js Demo</title>
+    <title>AR.js Surface Detection</title>
 
-    <!-- A-Frame and AR.js -->
+    <!-- A-Frame and AR.js (without VR mode) -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/ar.js/aframe/build/aframe-ar.min.js"></script>
   </head>
   <body style="margin: 0; overflow: hidden;">
-    <a-scene embedded arjs>
+    <a-scene embedded arjs="trackingMethod: best; sourceType: webcam;">
       <!-- Luz en la escena -->
       <a-light type="directional" position="1 1 1" intensity="0.5"></a-light>
 
       <!-- Reticle para indicar la detección de superficies -->
       <a-entity id="reticle" geometry="primitive: ring; radiusInner: 0.03; radiusOuter: 0.05" material="color: red; shader: flat" position="0 0 -1" visible="false"></a-entity>
 
-      <!-- Cámara con hit-test activado -->
+      <!-- Cámara sin VR, solo AR -->
       <a-entity camera>
-        <a-cursor id="cursor" fuse="true" fuse-timeout="1000"></a-cursor>
+        <a-cursor id="cursor" fuse="false"></a-cursor>
       </a-entity>
     </a-scene>
 
