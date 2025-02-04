@@ -1,32 +1,24 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="es">
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>AR.js Marker-based AR</title>
-
-    <!-- A-Frame y AR.js -->
-    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-    <script src="https://cdn.rawgit.com/jeromeetienne/ar.js/1.7.2/aframe/build/aframe-ar.min.js"></script>
-  </head>
-  <body style="margin: 0; overflow: hidden;">
-    <a-scene embedded arjs>
-      <!-- Luz -->
-      <a-light type="directional" position="1 1 1" intensity="0.5"></a-light>
-
-      <!-- Marcador de AR (puedes imprimirlo y usarlo) -->
-      <a-marker preset="hiro">
-        <a-entity id="reticle" geometry="primitive: ring; radiusInner: 0.03; radiusOuter: 0.05"
-          material="color: red; shader: flat" position="0 0 0.5">
-        </a-entity>
-      </a-marker>
-
-      <!-- Cámara -->
-      <a-entity camera></a-entity>
-    </a-scene>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>8th Wall AR</title>
+    
+    <!-- Incluye el SDK de 8th Wall -->
+    <script src="https://apps.8thwall.com/xrweb?appKey=TU_APP_KEY"></script>
 
     <script>
-      document.querySelector("a-marker").addEventListener("markerFound", function () {
-        console.log("Marcador detectado");
+        function placeModel(position) {
+            const scene = document.querySelector("#scene");
+            const model = document.createElement("a-entity");
 
-        document.body.ad
+            model.setAttribute("gltf-model", "https://immersive-web.github.io/webxr-samples/media/gltf/sunflower/sunflower.gltf");
+            model.setAttribute("scale", "0.5 0.5 0.5");
+            model.setAttribute("position", `${position.x} ${position.y} ${position.z}`);
+
+            scene.appendChild(model);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            XR8.XrContro
