@@ -46,6 +46,70 @@
         }
     </script>
 
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARKit Web - Girasoles</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f8f8;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #ar-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Experiencia ARKit en iOS - Girasoles</h1>
+    <p>Escanea una superficie y toca para colocar un girasol.</p>
+    <button id="start-ar">Iniciar AR</button>
+    <div id="ar-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!navigator.userAgent.includes("iPhone") && !navigator.userAgent.includes("iPad")) {
+                document.body.innerHTML = "<h1>Esta experiencia solo está disponible en dispositivos iOS con ARKit.</h1>";
+                return;
+            }
+            document.getElementById("start-ar").addEventListener("click", startARSession);
+        });
+
+        function startARSession() {
+            const arContainer = document.getElementById("ar-container");
+            const instructionText = document.createElement("p");
+            instructionText.textContent = "Apunta la cámara hacia una superficie plana y toca para colocar girasoles.";
+            arContainer.appendChild(instructionText);
+            document.body.addEventListener("click", placeGirasol);
+        }
+
+        function placeGirasol(event) {
+            const girasol = document.createElement("a");
+            girasol.setAttribute("rel", "ar");
+            girasol.setAttribute("href", "girasol.usdz");
+            girasol.innerHTML = `<img src="girasol.png" width="100" alt="Ver en AR">`;
+            document.getElementById("ar-container").appendChild(girasol);
+        }
+    </script>
+
     <!-- A-Frame para renderizar el modelo en AR -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 </head>
