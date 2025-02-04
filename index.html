@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARKit Web - Girasoles</title>
+    <title>ARKit Web - Super Mario Bros coin</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,8 +31,46 @@
     </style>
 </head>
 <body>
-    <h1>Experiencia ARKit en iOS - Girasoles</h1>
-    <p>Escanea una superficie y toca para colocar un girasol.</p>
+    <h1>Experiencia ARKit en iOS - Super Mario Bros coin</h1>
+    <p>Escanea una superficie y toca para colocar una moneda.</p>
+    <button id="start-ar">Iniciar AR</button>
+    <div id="ar-container"></div>
+
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARKit Web - Moneda de Super Mario</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f8f8;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ffcc00;
+            color: black;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #ffbb00;
+        }
+        #ar-container {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Experiencia ARKit en iOS - Moneda de Super Mario</h1>
+    <p>Escanea una superficie y toca para colocar una moneda de Super Mario en AR.</p>
     <button id="start-ar">Iniciar AR</button>
     <div id="ar-container"></div>
 
@@ -47,19 +85,21 @@
 
         function startARSession() {
             const arContainer = document.getElementById("ar-container");
-            arContainer.innerHTML = `<p>Apunta la cámara hacia una superficie plana y toca para colocar girasoles.</p>`;
-
-            // Agregar un girasol inicial para probar si Quick Look está funcionando
-            placeGirasol();
+            arContainer.innerHTML = `<p>Apunta la cámara hacia una superficie plana y toca para colocar una moneda de Super Mario.</p>`;
+            document.body.addEventListener("click", placeCoin);
         }
 
-        function placeGirasol() {
-            const girasol = document.createElement("a");
-            girasol.setAttribute("rel", "ar");
-            girasol.setAttribute("href", "https://developer.apple.com/augmented-reality/quick-look/models/teapot.usdz"); // Cambia a girasol.usdz cuando esté listo
-            girasol.innerHTML = `<img src="girasol.png" width="100" alt="Ver en AR">`;
-            document.getElementById("ar-container").appendChild(girasol);
+        function placeCoin() {
+            const coin = document.createElement("a");
+            coin.setAttribute("rel", "ar");
+            coin.setAttribute("href", "https://TU_USUARIO.github.io/PaginaDePrueba/Super_Mario_Bros_Coin.usdz");
+            coin.innerHTML = `<img src="coin.png" width="100" alt="Ver en AR">`;
+            document.getElementById("ar-container").appendChild(coin);
         }
     </script>
+</body>
+</html>
+
+
 </body>
 </html>
