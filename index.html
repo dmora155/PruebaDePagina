@@ -47,16 +47,16 @@
 
         function startARSession() {
             const arContainer = document.getElementById("ar-container");
-            const instructionText = document.createElement("p");
-            instructionText.textContent = "Apunta la cámara hacia una superficie plana y toca para colocar girasoles.";
-            arContainer.appendChild(instructionText);
-            document.body.addEventListener("click", placeGirasol);
+            arContainer.innerHTML = `<p>Apunta la cámara hacia una superficie plana y toca para colocar girasoles.</p>`;
+
+            // Agregar un girasol inicial para probar si Quick Look está funcionando
+            placeGirasol();
         }
 
-        function placeGirasol(event) {
+        function placeGirasol() {
             const girasol = document.createElement("a");
             girasol.setAttribute("rel", "ar");
-            girasol.setAttribute("href", "girasol.usdz");
+            girasol.setAttribute("href", "https://developer.apple.com/augmented-reality/quick-look/models/teapot.usdz"); // Cambia a girasol.usdz cuando esté listo
             girasol.innerHTML = `<img src="girasol.png" width="100" alt="Ver en AR">`;
             document.getElementById("ar-container").appendChild(girasol);
         }
