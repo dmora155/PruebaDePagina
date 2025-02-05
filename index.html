@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>ARKit Web - Objetos en Realidad Aumentada</title>
     <style>
         body {
@@ -53,14 +53,14 @@
 
         function placeObjects() {
             const objects = [
-                { name: "Lámpara", url: "ORIGAMI-PIP_table-lamp_V1_Shade-small.usdz", img: "lamp.png" },
-                { name: "Moneda de Mario", url: "Super_Mario_Bros_Coin.usdz", img: "coin.png" }
+                { name: "Lámpara", url: "ORIGAMI-PIP_table-lamp_V1_Shade-small.usdz", img: "lamp.png", transform: "scale=0.05 0.05 0.05&orientation=0 0 0 1" },
+                { name: "Moneda de Mario", url: "Super_Mario_Bros_Coin.usdz", img: "coin.png", transform: "scale=0.5 0.5 0.5&orientation=0 0 0 1" }
             ];
             
             objects.forEach(obj => {
                 const element = document.createElement("a");
                 element.setAttribute("rel", "ar");
-                element.setAttribute("href", obj.url);
+                element.setAttribute("href", `${obj.url}#${obj.transform}`);
                 element.innerHTML = `<img src="${obj.img}" width="100" alt="${obj.name} en AR">`;
                 document.getElementById("ar-container").appendChild(element);
             });
