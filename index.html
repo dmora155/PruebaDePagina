@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>ARKit Web - Objetos en Realidad Aumentada</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARKit Web - Moneda de Super Mario</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,39 +12,52 @@
             padding: 20px;
             background-color: #f8f8f8;
         }
-        .ar-button {
-            padding: 15px 25px;
-            font-size: 20px;
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
             background-color: #ffcc00;
             color: black;
             border: none;
-            border-radius: 10px;
+            border-radius: 5px;
             cursor: pointer;
-            margin: 15px;
-            display: inline-block;
-            width: auto;
+            margin-top: 20px;
         }
-        .ar-button:hover {
+        button:hover {
             background-color: #ffbb00;
         }
         #ar-container {
             margin-top: 20px;
         }
     </style>
-    
-    <!-- Google Model Viewer para compatibilidad con iOS y Android -->
-    <script type="module" src="https://unpkg.com/@google/model-viewer"></script>
 </head>
 <body>
-    <h1>Experiencia ARKit en iOS - Objetos en Realidad Aumentada</h1>
-    <p>Escanea una superficie y toca para colocar los objetos en AR.</p>
-    <div id="ar-container">
-        <a rel="ar" href="ORIGAMI-PIP_table-lamp_V1_Shade-small.usdz#custom=scale(0.05,0.05,0.05)&orientation(0,0,1,0)">
-            <button class="ar-button">Ver Lámpara en AR</button>
-        </a>
-        <a rel="ar" href="Super_Mario_Bros_Coin.usdz#custom=scale(0.5,0.5,0.5)">
-            <button class="ar-button">Ver Moneda de Mario en AR</button>
-        </a>
-    </div>
+    <h1>Experiencia ARKit en iOS - Moneda de Super Mario</h1>
+    <p>Escanea una superficie y toca para colocar una moneda de Super Mario en AR.</p>
+    <button id="start-ar">Iniciar AR</button>
+    <div id="ar-container"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (!navigator.userAgent.includes("iPhone") && !navigator.userAgent.includes("iPad")) {
+                document.body.innerHTML = "<h1>Esta experiencia solo está disponible en dispositivos iOS con ARKit.</h1>";
+                return;
+            }
+            document.getElementById("start-ar").addEventListener("click", startARSession);
+        });
+
+        function startARSession() {
+            const arContainer = document.getElementById("ar-container");
+            arContainer.innerHTML = `<p>Apunta la cámara hacia una superficie plana y toca para colocar una moneda de Super Mario.</p>`;
+            document.body.addEventListener("click", placeCoin);
+        }
+
+        function placeCoin() {
+            const coin = document.createElement("a");
+            coin.setAttribute("rel", "ar");
+            coin.setAttribute("href", "https://dmora155.github.io/PruebaDePagina/Super_Mario_Bros_Coin.usdz");
+            coin.innerHTML = `<img src="coin.png" width="100" alt="Ver en AR">`;
+            document.getElementById("ar-container").appendChild(coin);
+        }
+    </script>
 </body>
 </html>
