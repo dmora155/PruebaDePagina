@@ -56,20 +56,23 @@
 
         function placeObjects() {
             const objects = [
-                { name: "Lámpara", url: "ORIGAMI-PIP_table-lamp_V1_Shade-small.usdz", img: "lamp.png", scale: "0.1 0.1 0.1" },
-                { name: "Moneda de Mario", url: "Super_Mario_Bros_Coin.usdz", img: "coin.png", scale: "0.5 0.5 0.5" }
+                { 
+                    name: "Lámpara", 
+                    url: "ORIGAMI-PIP_table-lamp_V1_Shade-small.usdz#custom=scale(0.05,0.05,0.05)&orientation(0,0,1,0)", 
+                    img: "lamp.png" 
+                },
+                { 
+                    name: "Moneda de Mario", 
+                    url: "Super_Mario_Bros_Coin.usdz#custom=scale(0.5,0.5,0.5)", 
+                    img: "coin.png" 
+                }
             ];
             
             objects.forEach(obj => {
-                const element = document.createElement("model-viewer");
-                element.setAttribute("src", obj.url);
-                element.setAttribute("ios-src", obj.url);
-                element.setAttribute("ar", "true");
-                element.setAttribute("camera-controls", "true");
-                element.setAttribute("auto-rotate", "true");
-                element.setAttribute("scale", obj.scale);
-                element.style.width = "30px";
-                element.style.height = "30px";
+                const element = document.createElement("a");
+                element.setAttribute("rel", "ar");
+                element.setAttribute("href", obj.url);
+                element.innerHTML = `<button>Ver ${obj.name} en AR</button>`;
                 document.getElementById("ar-container").appendChild(element);
             });
         }
