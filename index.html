@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <title>ARKit Web - Objetos en Realidad Aumentada</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARKit Web - Moneda de Super Mario</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -31,8 +31,8 @@
     </style>
 </head>
 <body>
-    <h1>Experiencia ARKit en iOS - Objetos en Realidad Aumentada</h1>
-    <p>Escanea una superficie y toca para colocar los objetos en AR.</p>
+    <h1>Experiencia ARKit en iOS - Moneda de Super Mario</h1>
+    <p>Escanea una superficie y toca para colocar una moneda de Super Mario en AR.</p>
     <button id="start-ar">Iniciar AR</button>
     <div id="ar-container"></div>
 
@@ -47,23 +47,16 @@
 
         function startARSession() {
             const arContainer = document.getElementById("ar-container");
-            arContainer.innerHTML = `<p>Apunta la cámara hacia una superficie plana y toca para colocar los objetos en AR.</p>`;
-            document.body.addEventListener("click", placeObjects);
+            arContainer.innerHTML = `<p>Apunta la cámara hacia una superficie plana y toca para colocar una moneda de Super Mario.</p>`;
+            document.body.addEventListener("click", placeCoin);
         }
 
-        function placeObjects() {
-            const objects = [
-                { name: "Lámpara", url: "ORIGAMI-PIP_table-lamp_V1_Shade-small.usdz", img: "lamp.png", transform: "scale=0.001 0.001 0.001&orientation=0 0 1 0" },
-                { name: "Moneda de Mario", url: "Super_Mario_Bros_Coin.usdz", img: "coin.png", transform: "scale=0.5 0.5 0.5&orientation=0 0 0 1" }
-            ];
-            
-            objects.forEach(obj => {
-                const element = document.createElement("a");
-                element.setAttribute("rel", "ar");
-                element.setAttribute("href", `${obj.url}#${obj.transform}`);
-                element.innerHTML = `<img src="${obj.img}" width="100" alt="${obj.name} en AR">`;
-                document.getElementById("ar-container").appendChild(element);
-            });
+        function placeCoin() {
+            const coin = document.createElement("a");
+            coin.setAttribute("rel", "ar");
+            coin.setAttribute("href", "https://dmora155.github.io/PruebaDePagina/Super_Mario_Bros_Coin.usdz");
+            coin.innerHTML = `<img src="coin.png" width="100" alt="Ver en AR">`;
+            document.getElementById("ar-container").appendChild(coin);
         }
     </script>
 </body>
