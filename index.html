@@ -12,22 +12,19 @@
             padding: 20px;
             background-color: #f8f8f8;
         }
-        button {
+        .ar-button {
             padding: 15px 25px;
-            font-size: 18px;
+            font-size: 20px;
             background-color: #ffcc00;
             color: black;
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            margin-top: 20px;
-            display: block;
-            width: 80%;
-            max-width: 300px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 15px;
+            display: inline-block;
+            width: auto;
         }
-        button:hover {
+        .ar-button:hover {
             background-color: #ffbb00;
         }
         #ar-container {
@@ -41,46 +38,13 @@
 <body>
     <h1>Experiencia ARKit en iOS - Objetos en Realidad Aumentada</h1>
     <p>Escanea una superficie y toca para colocar los objetos en AR.</p>
-    <button id="start-ar">Iniciar AR</button>
-    <div id="ar-container"></div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            if (!navigator.userAgent.includes("iPhone") && !navigator.userAgent.includes("iPad")) {
-                document.body.innerHTML = "<h1>Esta experiencia solo está disponible en dispositivos iOS con ARKit.</h1>";
-                return;
-            }
-            document.getElementById("start-ar").addEventListener("click", startARSession);
-        });
-
-        function startARSession() {
-            const arContainer = document.getElementById("ar-container");
-            arContainer.innerHTML = `<p>Apunta la cámara hacia una superficie plana y toca para colocar los objetos en AR.</p>`;
-            document.body.addEventListener("click", placeObjects);
-        }
-
-        function placeObjects() {
-            const objects = [
-                { 
-                    name: "Lámpara", 
-                    url: "ORIGAMI-PIP_table-lamp_V1_Shade-small.usdz#custom=scale(0.05,0.05,0.05)&orientation(0,0,1,0)", 
-                    img: "lamp.png" 
-                },
-                { 
-                    name: "Moneda de Mario", 
-                    url: "Super_Mario_Bros_Coin.usdz#custom=scale(0.5,0.5,0.5)", 
-                    img: "coin.png" 
-                }
-            ];
-            
-            objects.forEach(obj => {
-                const element = document.createElement("a");
-                element.setAttribute("rel", "ar");
-                element.setAttribute("href", obj.url);
-                element.innerHTML = `<button>Ver ${obj.name} en AR</button>`;
-                document.getElementById("ar-container").appendChild(element);
-            });
-        }
-    </script>
+    <div id="ar-container">
+        <a rel="ar" href="ORIGAMI-PIP_table-lamp_V1_Shade-small.usdz#custom=scale(0.05,0.05,0.05)&orientation(0,0,1,0)">
+            <button class="ar-button">Ver Lámpara en AR</button>
+        </a>
+        <a rel="ar" href="Super_Mario_Bros_Coin.usdz#custom=scale(0.5,0.5,0.5)">
+            <button class="ar-button">Ver Moneda de Mario en AR</button>
+        </a>
+    </div>
 </body>
 </html>
