@@ -29,6 +29,9 @@
             margin-top: 20px;
         }
     </style>
+    
+    <!-- Google Model Viewer para compatibilidad con iOS y Android -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer"></script>
 </head>
 <body>
     <h1>Experiencia ARKit en iOS - Objetos en Realidad Aumentada</h1>
@@ -53,15 +56,20 @@
 
         function placeObjects() {
             const objects = [
-                { name: "Lámpara", url: "ORIGAMI-PIP_table-lamp_V1_Shade-small.usdz", img: "lamp.png", transform: "scale=0.00005 0.00005 0.00005&orientation=0 0 1 0" },
-                { name: "Moneda de Mario", url: "Super_Mario_Bros_Coin.usdz", img: "coin.png", transform: "scale=0.5 0.5 0.5&orientation=0 0 0 1" }
+                { name: "Lámpara", url: "ORIGAMI-PIP_table-lamp_V1_Shade-small.usdz", img: "lamp.png", scale: "0.1 0.1 0.1" },
+                { name: "Moneda de Mario", url: "Super_Mario_Bros_Coin.usdz", img: "coin.png", scale: "0.5 0.5 0.5" }
             ];
             
             objects.forEach(obj => {
-                const element = document.createElement("a");
-                element.setAttribute("rel", "ar");
-                element.setAttribute("href", `${obj.url}#${obj.transform}`);
-                element.innerHTML = `<img src="${obj.img}" width="100" alt="${obj.name} en AR">`;
+                const element = document.createElement("model-viewer");
+                element.setAttribute("src", obj.url);
+                element.setAttribute("ios-src", obj.url);
+                element.setAttribute("ar", "true");
+                element.setAttribute("camera-controls", "true");
+                element.setAttribute("auto-rotate", "true");
+                element.setAttribute("scale", obj.scale);
+                element.style.width = "300px";
+                element.style.height = "300px";
                 document.getElementById("ar-container").appendChild(element);
             });
         }
