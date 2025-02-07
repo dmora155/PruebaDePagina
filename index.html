@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARKit Web - Moneda de Super Mario</title>
+    <title>ARKit Web - Selección de Objetos</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,14 +13,14 @@
             background-color: #f8f8f8;
         }
         button {
-            padding: 10px 20px;
+            padding: 10px 15px;
             font-size: 16px;
             background-color: #ffcc00;
             color: black;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 20px;
+            margin: 10px;
         }
         button:hover {
             background-color: #ffbb00;
@@ -28,15 +28,45 @@
         #ar-container {
             margin-top: 20px;
         }
+        .object-selection {
+            margin: 20px 0;
+        }
     </style>
 </head>
 <body>
-    <h1>Experiencia ARKit en iOS - Moneda de Super Mario</h1>
-    <p>Escanea una superficie y toca para colocar una moneda de Super Mario en AR.</p>
+    <h1>Experiencia ARKit en iOS - Selección de Objetos</h1>
+    <p>Escanea una superficie y elige qué objeto colocar en AR.</p>
+
+    <div class="object-selection">
+        <button onclick="selectObject('coin')">Moneda</button>
+        <button onclick="selectObject('mushroom')">Hongo</button>
+        <button onclick="selectObject('star')">Estrella</button>
+    </div>
+
     <button id="start-ar">Iniciar AR</button>
     <div id="ar-container"></div>
 
     <script>
+        const objects = {
+            coin: {
+                name: "Moneda de Super Mario",
+                url: "https://dmora155.github.io/PruebaDePagina/Super_Mario_Bros_Coin.usdz",
+                img: "coin.png"
+            },
+            mushroom: {
+                name: "Hongo de Super Mario",
+                url: "https://dmora155.github.io/PruebaDePagina/Super_Mario_Bros_Mushroom.usdz",
+                img: "mushroom.png"
+            },
+            star: {
+                name: "Estrella de Super Mario",
+                url: "https://dmora155.github.io/PruebaDePagina/Super_Mario_Bros_Star.usdz",
+                img: "star.png"
+            }
+        };
+
+        let selectedObject = objects.coin; // Objeto predeterminado
+
         document.addEventListener("DOMContentLoaded", function() {
             if (!navigator.userAgent.includes("iPhone") && !navigator.userAgent.includes("iPad")) {
                 document.body.innerHTML = "<h1>Esta experiencia solo está disponible en dispositivos iOS con ARKit.</h1>";
@@ -45,18 +75,26 @@
             document.getElementById("start-ar").addEventListener("click", startARSession);
         });
 
-        function startARSession() {
-            const arContainer = document.getElementById("ar-container");
-            arContainer.innerHTML = `<p>Apunta la cámara hacia una superficie plana y toca para colocar una moneda de Super Mario.</p>`;
-            document.body.addEventListener("click", placeCoin);
+        function selectObject(objectKey) {
+            selectedObject = objects[objectKey];
+            document.getElementById("start-ar").innerText = `Iniciar AR con ${selectedObject.name}`;
         }
 
-        function placeCoin() {
-            const coin = document.createElement("a");
-            coin.setAttribute("rel", "ar");
-            coin.setAttribute("href", "https://dmora155.github.io/PruebaDePagina/Super_Mario_Bros_Coin.usdz");
-            coin.innerHTML = `<img src="coin.png" width="100" alt="Ver en AR">`;
-            document.getElementById("ar-container").appendChild(coin);
+        function startARSession() {
+            const arContainer = document.getElementById("ar-container");
+            arContainer.innerHTML = `<p>Apunta la cámara hacia una superficie plana y toca para colocar ${selectedObject.name} en AR.</p>`;
+            document.body.addEventListener("click", placeObject);
+        }
+
+        function placeObject() {
+            const arLink = document.createElement("a");
+            arLink.setAttribute("rel", "ar");
+            arLink.setAttribute("href", selectedObject.url);
+            arLink.innerHTML = `<img src="${selectedObject.img}" width="100" alt="Ver en AR">`;
+            
+            const arContainer = document.getElementById("ar-container");
+            arContainer.innerHTML = ""; // Limpiar el contenedor para no acumular objetos
+            arContainer.appendChild(arLink);
         }
     </script>
 </body>
